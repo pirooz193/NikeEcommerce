@@ -5,7 +5,7 @@ import 'package:nike_ecommerce_flutter/data/source/BannerDataSource.dart';
 final bannerRepository = BannerRepository(BannerRemoteDataSource(httpClient));
 
 abstract class IBannerrepository {
-  Future<List<Banner>> getAll();
+  Future<List<BannerEntity>> getAll();
 }
 
 class BannerRepository implements IBannerrepository {
@@ -13,7 +13,7 @@ class BannerRepository implements IBannerrepository {
 
   BannerRepository(this.dataSource);
   @override
-  Future<List<Banner>> getAll() {
+  Future<List<BannerEntity>> getAll() {
     return dataSource.getAll();
   }
 }

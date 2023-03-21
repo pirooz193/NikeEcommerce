@@ -3,7 +3,7 @@ import 'package:nike_ecommerce_flutter/data/banner.dart';
 import 'package:nike_ecommerce_flutter/data/common/http_response_validator.dart';
 
 abstract class IBannerDataSource {
-  Future<List<Banner>> getAll();
+  Future<List<BannerEntity>> getAll();
 }
 
 class BannerRemoteDataSource
@@ -14,12 +14,12 @@ class BannerRemoteDataSource
   BannerRemoteDataSource(this.httpClient);
 
   @override
-  Future<List<Banner>> getAll() async {
+  Future<List<BannerEntity>> getAll() async {
     final response = await httpClient.get('banner/slider');
     validateResponse(response);
-    final banners = <Banner>[];
+    final banners = <BannerEntity>[];
     (response.data as List).forEach((element) {
-      banners.add(Banner.fromJson(element));
+      banners.add(BannerEntity.fromJson(element));
     });
     return banners;
   }
