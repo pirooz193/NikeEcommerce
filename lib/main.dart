@@ -32,8 +32,14 @@ class MyApp extends StatelessWidget {
       title: 'noke ecommerce',
       theme: ThemeData(
         textTheme: TextTheme(
+          bodyText1: defaultTextStyle,
+          button: defaultTextStyle,
+          subtitle1: defaultTextStyle.apply(
+            color: LightThemeColors.secondaryTextColor,
+          ),
           bodyText2: defaultTextStyle,
-          headline6: defaultTextStyle.copyWith(fontWeight: FontWeight.bold),
+          headline6: defaultTextStyle.copyWith(
+              fontWeight: FontWeight.bold, fontSize: 16),
           caption: defaultTextStyle.apply(
               color: LightThemeColors.secondaryTextColor),
         ),

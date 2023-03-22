@@ -25,7 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               await productRepository.getAll(ProductSort.popular);
           emit(HomeSuccess(
               banners: banners,
-              products: latestProducts,
+              latestProducts: latestProducts,
               popularProducts: popularProducts));
         } catch (error) {
           emit(HomeError(
