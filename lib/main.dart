@@ -3,6 +3,7 @@ import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/data/repo/bannerRepository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/productRepository.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
+import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 import 'package:nike_ecommerce_flutter/ui/root.dart';
 
@@ -49,8 +50,8 @@ class MyApp extends StatelessWidget {
             secondary: LightThemeColors.secondaryColor,
             onSecondary: Colors.white),
       ),
-      home:
-          Directionality(textDirection: TextDirection.rtl, child: RootScreen()),
+      home: const Directionality(
+          textDirection: TextDirection.rtl, child: AuthScreen()),
     );
   }
 }
