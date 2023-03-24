@@ -64,7 +64,9 @@ class ProductDetailsScreen extends StatelessWidget {
                       height: 24,
                     ),
                     const Text(
-                        'این کفش شدیدا برای دویدن و راه رفتن مناسب است . تقریبا هیچ فشار مخربی به پا وارد نمی‌کند .'),
+                      'این کفش شدیدا برای دویدن و راه رفتن مناسب است . تقریبا هیچ فشار مخربی به پا وارد نمی‌کند .',
+                      style: TextStyle(height: 1.4),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
