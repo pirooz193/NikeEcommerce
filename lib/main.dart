@@ -4,6 +4,7 @@ import 'package:nike_ecommerce_flutter/data/repo/bannerRepository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/productRepository.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
+import 'package:nike_ecommerce_flutter/ui/root.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
             onSecondary: Colors.white),
       ),
       home:
-          Directionality(textDirection: TextDirection.rtl, child: HomeScreen()),
+          Directionality(textDirection: TextDirection.rtl, child: RootScreen()),
     );
   }
 }
