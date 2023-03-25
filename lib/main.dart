@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
+import 'package:nike_ecommerce_flutter/data/repo/authRepository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/bannerRepository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/productRepository.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
@@ -8,6 +9,8 @@ import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 import 'package:nike_ecommerce_flutter/ui/root.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  authRepository.loadAuthInfo();
   runApp(const MyApp());
 }
 

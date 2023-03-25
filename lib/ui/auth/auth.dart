@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nike_ecommerce_flutter/data/repo/authRepository.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -10,6 +11,10 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = true;
+  final TextEditingController usernameController =
+      TextEditingController(text: "test@gmail.com");
+  final TextEditingController passwordController =
+      TextEditingController(text: "123456");
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -76,19 +81,27 @@ class _AuthScreenState extends State<AuthScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const TextField(
+                    TextField(
+                      controller: usernameController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(label: Text('ایمیل')),
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    _PasswordTextField(onBackground: onBackground),
+                    _PasswordTextField(
+                      onBackground: onBackground,
+                      controller: passwordController,
+                    ),
                     const SizedBox(
                       height: 16,
                     ),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // authRepository.login(
+                          //     usernameController.text, passwordController.text);
+                          authRepository.refreshToken();
+                        },
                         child: Text(isLogin ? 'ورود' : 'ثبت نام')),
                     const SizedBox(
                       height: 24,
@@ -132,23 +145,31 @@ class _AuthScreenState extends State<AuthScreen> {
 }
 
 class _PasswordTextField extends StatefulWidget {
+  final TextEditingController controller;
   const _PasswordTextField({
     Key? key,
     required this.onBackground,
+    required this.controller,
   }) : super(key: key);
 
   final Color onBackground;
 
   @override
-  State<_PasswordTextField> createState() => _PasswordTextFieldState();
+  State<_PasswordTextField> createState() =>
+      _PasswordTextFieldState(controller);
 }
 
 class _PasswordTextFieldState extends State<_PasswordTextField> {
   bool obSecuredText = true;
 
+  final TextEditingController controller;
+
+  _PasswordTextFieldState(this.controller);
+
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       keyboardType: TextInputType.visiblePassword,
       obscureText: obSecuredText,
       decoration: InputDecoration(
