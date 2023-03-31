@@ -36,6 +36,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'noke ecommerce',
       theme: ThemeData(
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: defaultTextStyle.apply(
+            color: Colors.white,
+          ),
+        ),
         textTheme: TextTheme(
           bodyText1: defaultTextStyle,
           button: defaultTextStyle,
@@ -54,7 +59,7 @@ class MyApp extends StatelessWidget {
             onSecondary: Colors.white),
       ),
       home: const Directionality(
-          textDirection: TextDirection.rtl, child: AuthScreen()),
+          textDirection: TextDirection.rtl, child: RootScreen()),
     );
   }
 }

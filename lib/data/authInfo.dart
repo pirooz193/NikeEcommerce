@@ -1,6 +1,6 @@
 class AuthInfo {
-  final String accessToeken;
+  final String accessToken;
   final String refreshToeken;
 
-  AuthInfo(this.accessToeken, this.refreshToeken);
+  AuthInfo(this.accessToken, this.refreshToeken);
 }

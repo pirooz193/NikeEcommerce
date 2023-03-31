@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 
 const int homeIndex = 0;
@@ -52,12 +53,7 @@ class _RootScreenState extends State<RootScreen> {
             index: selectedScreenIndex,
             children: [
               _navigator(_homeKey, const HomeScreen(), homeIndex),
-              _navigator(
-                  _cartKey,
-                  Center(
-                    child: Text('cart'),
-                  ),
-                  catIndex),
+              _navigator(_cartKey, CartScreen(), catIndex),
               _navigator(
                   _profileKey,
                   Center(
