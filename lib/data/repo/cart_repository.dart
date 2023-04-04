@@ -1,6 +1,7 @@
 import 'package:nike_ecommerce_flutter/common/http_client.dart';
+import 'package:nike_ecommerce_flutter/data/CartResponse.dart';
 import 'package:nike_ecommerce_flutter/data/cartItem.dart';
-import 'package:nike_ecommerce_flutter/data/cartResponse.dart';
+import 'package:nike_ecommerce_flutter/data/add_to_cart_response.dart';
 import 'package:nike_ecommerce_flutter/data/source/cartdataSource.dart';
 
 final cartRepository = CartRepository(CartRemoteDataSource(httpClient));
@@ -12,12 +13,12 @@ class CartRepository implements IcartRepository {
 
   CartRepository(this.dataSource);
   @override
-  Future<CartResponse> add(int productId) {
+  Future<AddToCartResponse> add(int productId) {
     return dataSource.add(productId);
   }
 
   @override
-  Future<CartResponse> changeCount(int cartItemId, int count) {
+  Future<AddToCartResponse> changeCount(int cartItemId, int count) {
     return dataSource.changeCount(cartItemId, count);
   }
 
@@ -33,8 +34,7 @@ class CartRepository implements IcartRepository {
   }
 
   @override
-  Future<List<CartItemEntity>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<CartResponse> getAll() {
+    return dataSource.getAll();
   }
 }
