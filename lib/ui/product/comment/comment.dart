@@ -31,7 +31,7 @@ class CommentItem extends StatelessWidget {
                 ],
               ),
               Text(
-                comment.data,
+                comment.date,
                 style: themeData.textTheme.caption,
               )
             ],
