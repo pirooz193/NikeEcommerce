@@ -36,6 +36,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'noke ecommerce',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: LightThemeColors.primaryTextColor,
+        ),
         snackBarTheme: SnackBarThemeData(
           contentTextStyle: defaultTextStyle.apply(
             color: Colors.white,
@@ -54,9 +59,11 @@ class MyApp extends StatelessWidget {
               color: LightThemeColors.secondaryTextColor),
         ),
         colorScheme: const ColorScheme.light(
-            primary: LightThemeColors.primaryColor,
-            secondary: LightThemeColors.secondaryColor,
-            onSecondary: Colors.white),
+          primary: LightThemeColors.primaryColor,
+          secondary: LightThemeColors.secondaryColor,
+          onSecondary: Colors.white,
+          surfaceVariant: Color(0xffF5F5F5),
+        ),
       ),
       home: const Directionality(
           textDirection: TextDirection.rtl, child: RootScreen()),
