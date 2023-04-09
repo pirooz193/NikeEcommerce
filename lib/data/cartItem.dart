@@ -4,6 +4,7 @@ class CartItemEntity {
   final ProductEntity product;
   final int id;
   final int count;
+  bool deleteButtonLoading = false;
 
   CartItemEntity.fromJson(Map<String, dynamic> json)
       : product = ProductEntity.fromJson(json['product']),

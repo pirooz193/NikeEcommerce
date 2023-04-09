@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +24,25 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         } else {
           await loadCartItems(emit);
         }
-      } else if (event is CartDeleteButton) {
+      } else if (event is CartDeleteButtonClicked) {
+        try {
+          if (state is CartSuccess) {
+            final successState = (state as CartSuccess);
+            final cartItem = successState.cartResponse.cartItems
+                .firstWhere((element) => element.id == event.cartItemId);
+            cartItem.deleteButtonLoading = true;
+            emit(CartSuccess(successState.cartResponse));
+          }
+          await Future.delayed(Duration(microseconds: 500));
+          await cartRepository.delete(event.cartItemId);
+          if (state is CartSuccess) {
+            final successState = (state as CartSuccess);
+            successState.cartResponse.cartItems
+                .removeWhere((element) => element.id == event.cartItemId);
+            if (successState.cartResponse.cartItems.isEmpty) emit(CartEmpty());
+            emit(CartSuccess(successState.cartResponse));
+          }
+        } catch (e) {}
       } else if (event is CartAuthInfoChanged) {
         if (event.authInfo == null || event.authInfo!.accessToken.isEmpty) {
           emit(CartAuthRequired());

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
+import 'package:nike_ecommerce_flutter/data/cartItem.dart';
 import 'package:nike_ecommerce_flutter/data/repo/authRepository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
+import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
@@ -65,98 +67,11 @@ class _CartScreenState extends State<CartScreen> {
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     final data = state.cartResponse.cartItems[index];
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 20,
-                                color: Colors.black.withOpacity(0.05))
-                          ]),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 100,
-                                  height: 100,
-                                  child: ImageLoadingService(
-                                      borderRadius: BorderRadius.circular(12),
-                                      imageUrl: data.product.imageAddress),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      data.product.title,
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text('تعداد'),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                              CupertinoIcons.plus_rectangle),
-                                        ),
-                                        Text(
-                                          data.count.toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6,
-                                        ),
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                              CupertinoIcons.minus_rectangle),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      data.product.previousPrice.withPriceLabel,
-                                      style: const TextStyle(
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                    Text(data.product.price.withPriceLabel)
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          const Divider(
-                            height: 1,
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('حذف از سبد خرید'),
-                          ),
-                        ],
-                      ),
+                    return CartItem(
+                      data: data,
+                      onDeleteButtonClicked: () {
+                        cartBloc?.add(CartDeleteButtonClicked(data.id));
+                      },
                     );
                   },
                   itemCount: state.cartResponse.cartItems.length,
