@@ -13,7 +13,7 @@ part 'cart_state.dart';
 class CartBloc extends Bloc<CartEvent, CartState> {
   final IcartRepository cartRepository;
 
-  CartBloc(this.cartRepository) : super(CartLloading()) {
+  CartBloc(this.cartRepository) : super(CartLoading()) {
     on<CartEvent>((event, emit) async {
       if (event is CartStarted) {
         final authInfo = event.authInfo;
@@ -37,7 +37,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> loadCartItems(Emitter<CartState> emit) async {
     try {
-      emit(CartLloading());
+      emit(CartLoading());
       final result = await cartRepository.getAll();
       if (result.cartItems.isEmpty) {
         emit(CartEmpty());
