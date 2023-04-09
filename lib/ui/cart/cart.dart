@@ -55,7 +55,7 @@ class _CartScreenState extends State<CartScreen> {
           },
           child: BlocBuilder<CartBloc, CartState>(
             builder: (context, state) {
-              if (state is CartLloading) {
+              if (state is CartLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is CartError) {
                 return Center(
