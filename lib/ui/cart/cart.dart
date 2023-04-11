@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,7 @@ import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -21,6 +24,8 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   CartBloc? cartBloc;
+  final RefreshController _refreshController = RefreshController();
+  StreamSubscription? stateSubscribtion;
 
   @override
   void initState() {
@@ -37,6 +42,7 @@ class _CartScreenState extends State<CartScreen> {
     AuthRepository.authChangeNotifier
         .removeListener(authChangeNotifierListener);
     cartBloc?.close();
+    stateSubscribtion?.cancel();
     super.dispose();
   }
 
@@ -53,6 +59,15 @@ class _CartScreenState extends State<CartScreen> {
             final bloc = CartBloc(cartRepository);
             cartBloc = bloc;
             bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
+            stateSubscribtion = bloc.stream.listen((state) {
+              if (_refreshController.isRefresh) {
+                if (state is CartSuccess) {
+                  _refreshController.refreshCompleted();
+                } else if (state is CartError) {
+                  _refreshController.refreshFailed();
+                }
+              }
+            });
             return bloc;
           },
           child: BlocBuilder<CartBloc, CartState>(
@@ -64,17 +79,37 @@ class _CartScreenState extends State<CartScreen> {
                   child: Text(state.exception.message),
                 );
               } else if (state is CartSuccess) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final data = state.cartResponse.cartItems[index];
-                    return CartItem(
-                      data: data,
-                      onDeleteButtonClicked: () {
-                        cartBloc?.add(CartDeleteButtonClicked(data.id));
-                      },
-                    );
+                return SmartRefresher(
+                  controller: _refreshController,
+                  onRefresh: () {
+                    cartBloc?.add(
+                        CartStarted(AuthRepository.authChangeNotifier.value));
                   },
-                  itemCount: state.cartResponse.cartItems.length,
+                  header: const ClassicHeader(
+                    releaseText: 'رها کنید',
+                    completeText: 'با موفقیت انجام شد',
+                    refreshingText: 'در حال بروزرسانی',
+                    idleText: 'برای بروزرسانی پایین بکشید',
+                    failedText: 'خطای نامشخص',
+                    spacing: 2,
+                    completeIcon: Icon(
+                      CupertinoIcons.check_mark_circled,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
+                  ),
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      final data = state.cartResponse.cartItems[index];
+                      return CartItem(
+                        data: data,
+                        onDeleteButtonClicked: () {
+                          cartBloc?.add(CartDeleteButtonClicked(data.id));
+                        },
+                      );
+                    },
+                    itemCount: state.cartResponse.cartItems.length,
+                  ),
                 );
               } else if (state is CartAuthRequired) {
                 return Center(
