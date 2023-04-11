@@ -40,7 +40,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             successState.cartResponse.cartItems
                 .removeWhere((element) => element.id == event.cartItemId);
             if (successState.cartResponse.cartItems.isEmpty) emit(CartEmpty());
-            emit(CartSuccess(successState.cartResponse));
+            emit(calculatePriceIfo(successState.cartResponse));
           }
         } catch (e) {}
       } else if (event is CartAuthInfoChanged) {
@@ -70,5 +70,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     } catch (e) {
       emit(CartError(AppException()));
     }
+  }
+
+  CartSuccess calculatePriceIfo(CartResponse cartResponse) {
+    int totalPrice = 0;
+    int shippingCost = 0;
+    int payablePrice = 0;
+
+    cartResponse.cartItems.forEach((cartItem) {
+      totalPrice += cartItem.product.previousPrice * cartItem.count;
+      payablePrice += cartItem.product.price * cartItem.count;
+    });
+
+    shippingCost = payablePrice >= 250000 ? 0 : 30000;
+    cartResponse.totalPrice = totalPrice;
+    cartResponse.payablePrice = payablePrice;
+    cartResponse.shippingCost = shippingCost;
+    return CartSuccess(cartResponse);
   }
 }

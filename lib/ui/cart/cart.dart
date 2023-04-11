@@ -11,6 +11,7 @@ import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
+import 'package:nike_ecommerce_flutter/ui/cart/price_info.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -100,15 +101,22 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      final data = state.cartResponse.cartItems[index];
-                      return CartItem(
-                        data: data,
-                        onDeleteButtonClicked: () {
-                          cartBloc?.add(CartDeleteButtonClicked(data.id));
-                        },
-                      );
+                      if (index < state.cartResponse.cartItems.length) {
+                        final data = state.cartResponse.cartItems[index];
+                        return CartItem(
+                          data: data,
+                          onDeleteButtonClicked: () {
+                            cartBloc?.add(CartDeleteButtonClicked(data.id));
+                          },
+                        );
+                      } else {
+                        return PriceInfo(
+                            payablePrice: state.cartResponse.payablePrice,
+                            shippingPrice: state.cartResponse.shippingCost,
+                            totalPrice: state.cartResponse.totalPrice);
+                      }
                     },
-                    itemCount: state.cartResponse.cartItems.length,
+                    itemCount: state.cartResponse.cartItems.length + 1,
                   ),
                 );
               } else if (state is CartAuthRequired) {
