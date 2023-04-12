@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/data/repo/authRepository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
+import 'package:nike_ecommerce_flutter/ui/widgets/badge.dart';
 
 const int homeIndex = 0;
 const int catIndex = 1;
@@ -54,7 +55,7 @@ class _RootScreenState extends State<RootScreen> {
             index: selectedScreenIndex,
             children: [
               _navigator(_homeKey, const HomeScreen(), homeIndex),
-              _navigator(_cartKey, CartScreen(), catIndex),
+              _navigator(_cartKey, const CartScreen(), catIndex),
               _navigator(
                   _profileKey,
                   Center(
@@ -62,12 +63,12 @@ class _RootScreenState extends State<RootScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('profile'),
+                        const Text('profile'),
                         ElevatedButton(
                             onPressed: () {
                               authRepository.signOut();
                             },
-                            child: Text('خروج'))
+                            child: const Text('خروج'))
                       ],
                     ),
                   ),
@@ -75,12 +76,19 @@ class _RootScreenState extends State<RootScreen> {
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              const BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.home), label: 'خانه'),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.cart), label: 'سبد خرید'),
-              BottomNavigationBarItem(
+                  icon: Stack(
+                    clipBehavior: Clip.none,
+                    children: const [
+                      Icon(CupertinoIcons.cart),
+                      Positioned(right: -10, child: Badge(value: 2))
+                    ],
+                  ),
+                  label: 'سبد خرید'),
+              const BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.profile_circled), label: 'پروفایل'),
             ],
             currentIndex: selectedScreenIndex,
