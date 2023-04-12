@@ -10,10 +10,14 @@ class CartItem extends StatelessWidget {
     Key? key,
     required this.data,
     required this.onDeleteButtonClicked,
+    required this.onIncreaseButtonClicked,
+    required this.onDecreaseButtonClicked,
   }) : super(key: key);
 
   final CartItemEntity data;
   final GestureTapCallback onDeleteButtonClicked;
+  final GestureTapCallback onIncreaseButtonClicked;
+  final GestureTapCallback onDecreaseButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +68,20 @@ class CartItem extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: onIncreaseButtonClicked,
                           icon: const Icon(CupertinoIcons.plus_rectangle),
                         ),
-                        Text(
-                          data.count.toString(),
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
+                        data.changeCountLoading
+                            ? CupertinoActivityIndicator(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              )
+                            : Text(
+                                data.count.toString(),
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: onDecreaseButtonClicked,
                           icon: const Icon(CupertinoIcons.minus_rectangle),
                         ),
                       ],
@@ -85,6 +94,8 @@ class CartItem extends StatelessWidget {
                     Text(
                       data.product.previousPrice.withPriceLabel,
                       style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
                           decoration: TextDecoration.lineThrough),
                     ),
                     Text(data.product.price.withPriceLabel)

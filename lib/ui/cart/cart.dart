@@ -108,6 +108,14 @@ class _CartScreenState extends State<CartScreen> {
                           onDeleteButtonClicked: () {
                             cartBloc?.add(CartDeleteButtonClicked(data.id));
                           },
+                          onIncreaseButtonClicked: () {
+                            cartBloc?.add(IncreaseButtonClicked(data.id));
+                          },
+                          onDecreaseButtonClicked: () {
+                            if (data.count > 1) {
+                              cartBloc?.add(DecreaseButtonClicked(data.id));
+                            }
+                          },
                         );
                       } else {
                         return PriceInfo(

@@ -25,3 +25,15 @@ class CartDeleteButtonClicked extends CartEvent {
 
   const CartDeleteButtonClicked(this.cartItemId);
 }
+
+class IncreaseButtonClicked extends CartEvent {
+  final int cartItemId;
+
+  const IncreaseButtonClicked(this.cartItemId);
+}
+
+class DecreaseButtonClicked extends CartEvent {
+  final int cartItemId;
+
+  const DecreaseButtonClicked(this.cartItemId);
+}
