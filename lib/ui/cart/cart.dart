@@ -27,6 +27,7 @@ class _CartScreenState extends State<CartScreen> {
   CartBloc? cartBloc;
   final RefreshController _refreshController = RefreshController();
   StreamSubscription? stateSubscribtion;
+  bool stateIsSuccess = false;
 
   @override
   void initState() {
@@ -50,6 +51,16 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Visibility(
+          visible: stateIsSuccess,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(left: 48, right: 48),
+            child: FloatingActionButton.extended(
+                onPressed: () {}, label: const Text('ثبت خرید')),
+          ),
+        ),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         appBar: AppBar(
           centerTitle: true,
@@ -61,6 +72,9 @@ class _CartScreenState extends State<CartScreen> {
             cartBloc = bloc;
             bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
             stateSubscribtion = bloc.stream.listen((state) {
+              setState(() {
+                stateIsSuccess = state is CartSuccess;
+              });
               if (_refreshController.isRefresh) {
                 if (state is CartSuccess) {
                   _refreshController.refreshCompleted();
@@ -100,6 +114,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                   child: ListView.builder(
+                    padding: EdgeInsets.only(bottom: 80),
                     itemBuilder: (context, index) {
                       if (index < state.cartResponse.cartItems.length) {
                         final data = state.cartResponse.cartItems[index];
