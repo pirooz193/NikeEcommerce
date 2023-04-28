@@ -20,9 +20,9 @@ class _RootScreenState extends State<RootScreen> {
   int selectedScreenIndex = homeIndex;
   final List<int> _history = [];
 
-  GlobalKey<NavigatorState> _homeKey = GlobalKey();
-  GlobalKey<NavigatorState> _cartKey = GlobalKey();
-  GlobalKey<NavigatorState> _profileKey = GlobalKey();
+  final GlobalKey<NavigatorState> _homeKey = GlobalKey();
+  final GlobalKey<NavigatorState> _cartKey = GlobalKey();
+  final GlobalKey<NavigatorState> _profileKey = GlobalKey();
 
   late final map = {
     homeIndex: _homeKey,
@@ -84,7 +84,10 @@ class _RootScreenState extends State<RootScreen> {
                     clipBehavior: Clip.none,
                     children: const [
                       Icon(CupertinoIcons.cart),
-                      Positioned(right: -10, child: Badge(value: 2))
+                      Positioned(
+                        right: -10,
+                        child: BadgeWidget(value: 2),
+                      )
                     ],
                   ),
                   label: 'سبد خرید'),
