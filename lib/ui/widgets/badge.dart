@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Badge extends StatelessWidget {
+class BadgeWidget extends StatelessWidget {
   final int value;
 
-  const Badge({super.key, required this.value});
+  const BadgeWidget({super.key, required this.value});
   @override
   Widget build(BuildContext context) {
     return Visibility(

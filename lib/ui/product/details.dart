@@ -13,7 +13,25 @@ import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductEntity product;
-
+  // floatingActionButton: SizedBox(
+  //   width: MediaQuery.of(context).size.width - 48,
+  //   child: BlocBuilder<ProductBloc, ProductState>(
+  //     builder: (context, state) {
+  //       return FloatingActionButton.extended(
+  //           onPressed: () {
+  //             BlocProvider.of<ProductBloc>(context)
+  //                 .add(CartAddButtonClicked(widget.product.id));
+  //           },
+  //           label: state is ProductAddTocartButtonLoading
+  //               ? CupertinoActivityIndicator(
+  //                   color: Theme.of(context).colorScheme.onSecondary,
+  //                 )
+  //               : Text('افزودن به سبد خرید'));
+  //     },
+  //   ),
+  // ),
+  // floatingActionButtonLocation:
+  //     FloatingActionButtonLocation.centerFloat,
   const ProductDetailsScreen({super.key, required this.product});
 
   @override
